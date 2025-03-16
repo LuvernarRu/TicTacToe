@@ -187,15 +187,15 @@ public class TicTacToe
                 if (choice == 1) {
                     resetField();
 
-                    System.out.println(String.format("Очки игроков:\nИгрок %s - %d\nИгрок %s - %d",
-                            playerX.name, playerX.points, player0.name, player0.points));
+                    System.out.println(String.format("Очки игроков:\n%s\n%s", playerX, player0));
 
                     main(new String[]{});
                 }
                 else if (choice == 0) {
-                    System.out.println(String.format("Очки игроков:\nИгрок %s - %d\nИгрок %s - %d",
-                            playerX.name, playerX.points, player0.name, player0.points));
+                    System.out.println(String.format("Очки игроков:\n%s\n%s", playerX, player0));
+
                     scanner.close();
+
                     System.exit(0);
                 }
                 else {
@@ -220,6 +220,10 @@ public class TicTacToe
     {
         private final String name;
         private int points = 0;
+
+        public String toString() {
+            return "Игрок " + this.name + " - " + this.points;
+        }
 
         public Player(String name) {
             this.name = name;

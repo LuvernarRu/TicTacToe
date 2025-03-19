@@ -3,26 +3,22 @@ package TicTacToe_on_java;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
-/**
- * Класс TicTacToe представляет собой реализацию игры в крестики-нолики.
- */
+
 public class TicTacToe
 {
-    // Сканнер для ввода данных
     private final Scanner scanner = new Scanner(System.in);
 
-    // Игроки
+    // Players
     private final Player playerX = new Player("X");
     private final Player player0 = new Player("O");
 
-    // Игровое поле
+    // Playing field
     private final String[][] field = {
             {" ", " ", " "},
             {" ", " ", " "},
             {" ", " ", " "}
     };
 
-    // Карта ходов
     private final Map<Integer, int[]> moves = Map.of(
             7, new int[]{0, 0},
             8, new int[]{0, 1},
@@ -67,7 +63,7 @@ public class TicTacToe
             System.out.print("Выбирает " + player.name + ": ");
             try {
                 int choice = scanner.nextInt();
-                scanner.nextLine(); // Очищаем буфер после ввода числа
+                scanner.nextLine();
 
                 int[] coordinates = moves.get(choice);
 
@@ -85,43 +81,38 @@ public class TicTacToe
                 }
                 else
                 {
-                    System.out.println("Ячейка уже занята! Пробуйте снова.");
+                    System.out.println("The cell is already occupied! Try again.");
                     try {
                         TimeUnit.SECONDS.sleep(2);
                     } catch (InterruptedException ex) {}
                 }
             }
             catch (InputMismatchException e) {
-                System.out.println("Вы ввели не число или не число от 1 до 9! Попробуйте снова.");
+                System.out.println("The entered number is not a number from 1 to 9! Try again.");
                 try {
                     TimeUnit.SECONDS.sleep(2);
                 }
                 catch (InterruptedException ex) {
                     Thread.currentThread().interrupt();
                 }
-                scanner.nextLine(); // Очищаем буфер после некорректного ввода
+                scanner.nextLine();
             }
         }
     }
 
-    /**
-     * Метод для проверки победы игрока.
-     *
-     * @param player Игрок, чью победу проверяем
-     */
     private void checkWin(Player player) {
         for (int i : new int[]{0, 1, 2})
         {
-            // Проверка строк
+            // Checking strings
             if (field[i][0].equals(player.name) && field[i][1].equals(player.name) && field[i][2].equals(player.name)) {
                 win(player);
             }
-            // Проверка столбцов
+            // Checking columns
             if (field[0][i].equals(player.name) && field[1][i].equals(player.name) && field[2][i].equals(player.name)) {
                 win(player);
             }
         }
-        // Проверка диагоналей
+        // Checking diagonals
         if (field[0][0].equals(player.name) && field[1][1].equals(player.name) && field[2][2].equals(player.name)) {
             win(player);
         }
@@ -143,11 +134,11 @@ public class TicTacToe
     }
     private void printField()
     {
-        // Очистка консоли:
+        // Console clear:
         System.out.print("\033[H\033[2J");
         System.out.flush();
 
-        // Вывод поля:
+        // Printing field:
         System.out.println();
         System.out.println(field[0][0] + "|" + field[0][1] + "|" + field[0][2] + "\n-+-+-");
         System.out.println(field[1][0] + "|" + field[1][1] + "|" + field[1][2] + "\n-+-+-");
@@ -160,23 +151,21 @@ public class TicTacToe
         printField();
         player.points++;
 
-        System.out.println(String.format("\n%s победил!\n\nХотите сыграть снова?\n1 - да\n0 - нет", player.name));
+        System.out.println(String.format("\n%s won!\n\nDo you want to play again?\n1 - yes\n0 - no", player.name));
 
         playAgain();
     }
 
-    // Метод для объявления ничьи.
     private void draw() throws InputMismatchException
     {
         printField();
 
-        System.out.println("\nНИЧЬЯ\n\nХотите сыграть снова?\n1 - да\n0 - нет");
+        System.out.println("\nDRAW\n\nDo you want to play again?\n1 - yes\n0 - no");
 
         playAgain();
     }
 
 
-    //Метод для повторного запуска игры или выхода из программы.
     private void playAgain()
     {
         while (true)
@@ -187,19 +176,19 @@ public class TicTacToe
                 if (choice == 1) {
                     resetField();
 
-                    System.out.println(String.format("Очки игроков:\n%s\n%s", playerX, player0));
+                    System.out.println(String.format("Player points:\n%s\n%s", playerX, player0));
 
                     main(new String[]{});
                 }
                 else if (choice == 0) {
-                    System.out.println(String.format("Очки игроков:\n%s\n%s", playerX, player0));
+                    System.out.println(String.format("Player points:\n%s\n%s", playerX, player0));
 
                     scanner.close();
 
                     System.exit(0);
                 }
                 else {
-                    System.out.print("Не тот ввод!\nВведите снова: ");
+                    System.out.print("Wrong input!\nInput again: ");
                     playAgain();
                 }
                 break;
@@ -207,7 +196,7 @@ public class TicTacToe
             catch (InputMismatchException e) {}
         }
     }
-    //Метод для сброса игрового поля.
+
     private void resetField()
     {
         for (String[] line : field) {
@@ -215,14 +204,14 @@ public class TicTacToe
         }
     }
 
-    //Класс Игрок
+
     private class Player
     {
         private final String name;
         private int points = 0;
 
         public String toString() {
-            return "Игрок " + this.name + " - " + this.points;
+            return "Player " + this.name + " - " + this.points;
         }
 
         public Player(String name) {
